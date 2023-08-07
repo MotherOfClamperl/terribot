@@ -1,5 +1,5 @@
-# .env
-# .dev.env
+.env
+.dev.env
 # Logs
 logs
 *.log
