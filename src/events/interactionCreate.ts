@@ -3,10 +3,11 @@ import { event, Events } from "../utils/index.js";
 const liveTags: string[] = [];
 
 const formatTag = (tag: string) => tag.replace(/_/g, "`_`"); // _ in @ in discord message links []() are auto-removed
-async function getLiveTags() {
+async function getLiveTags(spinoffs: boolean) {
 	try {
 		const response = await fetch(
-			"https://terriverse.vercel.app/api/who-live/spinoffs"
+			"https://terriverse.vercel.app/api/who-live/" +
+				(spinoffs ? "spinoffs" : "")
 		);
 		const data = await response.json();
 		liveTags.splice(0, liveTags.length); // clear array
@@ -21,9 +22,14 @@ export default event(
 	Events.InteractionCreate,
 	({ log, client }, interaction) => {
 		if (!interaction.isChatInputCommand()) return;
-		if (interaction.commandName === "spinoffs") {
+		if (
+			interaction.commandName === "spinoffs" ||
+			interaction.commandName === "terribot"
+		) {
 			interaction.reply("...");
-			getLiveTags().then(() => {
+			getLiveTags(
+				interaction.commandName === "spinoffs" ? true : false
+			).then(() => {
 				let msg = "";
 				if (!liveTags.length) msg = "terriverse is sleep";
 				liveTags.forEach((tag) => {

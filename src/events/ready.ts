@@ -65,6 +65,7 @@ export default event(Events.ClientReady, ({ log }, client) => {
 		}
 		client.application.commands.set([]); // clear cached commands & re-add
 		addCommand("spinoffs", "which terriverse side characters are on live?");
+		addCommand("terribot", "which of terri's alts are live?");
 	})();
 
 	setInterval(checkUp, checkUpT);
