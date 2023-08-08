@@ -57,23 +57,18 @@ export default event(Events.ClientReady, ({ log }, client) => {
 
 	// register commands
 	(function () {
-		function addCommand(name: string, desc: string, fn: () => void) {
+		function addCommand(name: string, desc: string) {
 			const cmd = new SlashCommandBuilder()
 				.setName(name)
 				.setDescription(desc);
 			client.application.commands.create(cmd);
-			return cmd;
 		}
 		client.application.commands.set([]); // clear cached commands & re-add
-		addCommand(
-			"spinoffs",
-			"which terriverse side characters are on live?",
-			() => {}
-		);
+		addCommand("spinoffs", "which terriverse side characters are on live?");
 	})();
 
-	// setInterval(checkUp, checkUpT);
-	// checkUp();
+	setInterval(checkUp, checkUpT);
+	checkUp();
 
 	return;
 });
