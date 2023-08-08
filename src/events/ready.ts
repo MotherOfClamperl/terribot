@@ -25,7 +25,7 @@ async function getLiveTag() {
 export default event(Events.ClientReady, ({ log }, client) => {
 	log(`Logged in as ${client.user.username}!`);
 
-	function sendMsg(channelName: string, msg: string) {
+	function sendMsg(msg: string, channelName: string) {
 		client.guilds.cache.forEach((guild) => {
 			guild.channels.cache.forEach((channel) => {
 				if (channel.name === channelName) {
@@ -47,7 +47,7 @@ export default event(Events.ClientReady, ({ log }, client) => {
 				);
 
 			if (!terriLiveTag && terriWasAlreadyLive)
-				sendMsg(CHANNELNAME, `@${terriWasAlreadyLive} disconnected`);
+				sendMsg(`@${terriWasAlreadyLive} disconnected`, CHANNELNAME);
 		});
 	}
 
