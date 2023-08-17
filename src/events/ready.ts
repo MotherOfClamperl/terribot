@@ -51,7 +51,10 @@ export default event(Events.ClientReady, ({ log }, client) => {
 				);
 
 			if (!terriLiveTag && terriWasAlreadyLive)
-				sendMsg(`@${terriWasAlreadyLive} disconnected`, CHANNELNAME);
+				sendMsg(
+					`@${formatTag(terriWasAlreadyLive)} disconnected`,
+					CHANNELNAME
+				);
 		});
 	}
 
