@@ -18,7 +18,16 @@ async function getLiveTag() {
 		const response = await fetch(
 			"https://terriverse.vercel.app/api/who-live"
 		);
-		const data = await response.json();
+
+		let data;
+		try {
+			data = await response.json();
+		} catch (err) {
+			data = { tagInfo: {} };
+			const txt = await response.text();
+			console.log("(ready.ts) couldn't parse: " + txt);
+		}
+
 		terriLiveTag = "";
 		for (let tag in data.tagInfo) if (data.tagInfo[tag]) terriLiveTag = tag;
 	} catch (error) {
@@ -40,6 +49,7 @@ export default event(Events.ClientReady, ({ log }, client) => {
 	}
 
 	function checkUp() {
+		console.log("checking up...");
 		const terriWasAlreadyLive = terriLiveTag;
 		getLiveTag().then(() => {
 			if (terriLiveTag && !terriWasAlreadyLive)

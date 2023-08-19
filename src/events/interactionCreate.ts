@@ -9,7 +9,16 @@ async function getLiveTags(spinoffs: boolean) {
 			"https://terriverse.vercel.app/api/who-live/" +
 				(spinoffs ? "spinoffs" : "")
 		);
-		const data = await response.json();
+
+		let data;
+		try {
+			data = await response.json();
+		} catch (err) {
+			data = { tagInfo: {} };
+			const txt = await response.text();
+			console.log("(interactionCreate.ts) couldn't parse: " + txt);
+		}
+
 		liveTags.splice(0, liveTags.length); // clear array
 		for (let tag in data.tagInfo)
 			if (data.tagInfo[tag]) liveTags.push("@" + tag);
